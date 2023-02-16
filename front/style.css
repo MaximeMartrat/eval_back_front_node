@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 10% 90%;
+}
+header{
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+}
+#todolist{
+    display: none;
+    grid-column: 2;
+    grid-row: 2;
+}
+#todo{
+    display: none;
+    grid-column: 2;
+    grid-row: 2;
+}
+#done{
+    display: none;
+    grid-column: 2;
+    grid-row: 2;
+}

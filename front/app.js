@@ -8,6 +8,28 @@ $(document).ready(() => {
         selectedButtonValue = $(this).val()
         console.log(selectedButtonValue);
     });
+    //listener du bouton todo_button
+    $("#todo_button").click(function() {
+        $("#todo").css("display" , "grid");
+        $("#done").css("display" , "none");
+        $("#todolist").css('display', 'none')
+    })
+    //listener du bouton display_todo_button
+    $("#display_todo_button").click(function() {
+        $("#todo").css("display" , "none")
+    })
+
+    //listener du bouton done_button
+    $("#done_button").click(function() {
+        $("#done").css("display" , "grid")
+        $("#todo").css("display" , "none")
+        $("#todolist").css('display', 'none')
+    })
+    //listener du bouton display_todo_button
+    $("#display_done_button").click(function() {
+        $("#done").css("display" , "none")
+    })
+
     //fonction pour créer une nouvelle tache
     function createTask() {
         //récupération des valeurs des input
@@ -95,9 +117,14 @@ $(document).ready(() => {
                     myTab2 += '<td>' + doneItems[i].tache + '</td>'
                     myTab2 += '</tr>'
                 }
-                myTab2 += `</table>`
+                myTab2 += `</table><br/>`
+                let clearButton = '<button id="display_button">clear</button>';
                 //affichage des tableaux dans la div
-                todoList.html(myTab + myTab2);
+                todoList.html(myTab + myTab2 + clearButton);
+                //listener sur le bouton display
+                $("#display_button").click(function() {
+                    $("#todolist").css('display', 'none')
+                });
             },
             //si erreur 
             error: (xhr, status, error) => {
@@ -110,7 +137,12 @@ $(document).ready(() => {
         })
     }
     //event listener sur le bouton todolist
-    $("#todolist_button").click(getTodoList);
+    $("#todolist_button").click(function() { 
+        getTodoList();
+        $("#todolist").css('display', 'grid')
+        $("#done").css("display" , "none");
+        $("#todo").css("display" , "none")
+    });
 
     //creation de la fonction pour appel a la methode de recupération de données par id
     function getTaskById() {
