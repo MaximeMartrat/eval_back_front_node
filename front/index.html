@@ -11,6 +11,82 @@
     <title>Eval front back node</title>
 </head>
 <body>
-    
+    <header>
+        <h1>TODOLIST</h1>
+        <nav>
+            <button id="todolist_button" value="todolist">Todolist</button>
+            <button class="selected_button" id="todo_button" value="todo">A Faire</button>
+            <button class="selected_button" id="done_button" value="done">Fait</button>
+        </nav>
+    </header>
+    <div id="all_container">
+        <div id="todolist"></div>
+        <div id="todo">
+            <div id="get_done_container">
+                <h2>SELECTIONNER OU DEPLACER</h2>
+                <br />
+                <label for="todo_id">N°</label><br />
+                <input type="number" id="get_todo"/><br />
+                <div id="todo_id"></div>
+                <br />
+                <button class="get_by_id_button">Afficher</button>
+                <button class="delete_button">Fait</button>
+              </div>
+              <div id="todo_post_container">
+                <h2>AJOUTER</h2>
+                <br />
+                <label for="titre">Titre</label><br />
+                <input type="text" id="create_todo" /><br />
+                <label for="task">Description</label><br />
+                <input type="text" id="todo_task" />
+                <br /><br />
+                <button class="create_button">ok</button>
+              </div>
+              <div id="todo_update_container">
+                <h2>MODIFIER</h2><br>
+                <label for="maj_todo_id">N°</label><br />
+                <input type="number" id="id_maj_todo" /><br />
+                <label for="titre">Titre</label><br />
+                <input type="text" id="maj_title_todo" /><br />
+                <label for="task">Description</label><br />
+                <input type="text" id="maj_task_todo" />
+                <br /><br />
+                <button class="update_button">ok</button>
+              </div>
+        </div>
+        <div id="done">
+            <div id="get_delete_container">
+                <h2>SELECTIONNER OU EFFACER</h2>
+                <br />
+                <label for="done_id">N°</label><br />
+                <input type="number" id="get_done" /><br />
+                <div id="done_id"></div>
+                <br />
+                <button class="get_by_id_button">Afficher</button>
+                <button class="delete_button">Effacer</button>
+              </div>
+              <div id="done_post_container">
+                <h2>AJOUTER</h2>
+                <br />
+                <label for="titre">Titre</label><br />
+                <input type="text" id="create_done" /><br />
+                <label for="task">Description</label><br />
+                <input type="text" id="done_task" />
+                <br /><br />
+                <button class="create_button">ok</button>
+              </div>
+              <div id="done_update_container">
+                <h2>MODIFIER</h2><br>
+                <label for="maj_done_id">N°</label><br />
+                <input type="number" id="id_maj_done" /><br />
+                <label for="titre">Titre</label><br />
+                <input type="text" id="maj_title_done" /><br />
+                <label for="task">Description</label><br />
+                <input type="text" id="maj_task_done" />
+                <br /><br />
+                <button class="update_button">ok</button>
+              </div>
+        </div>
+    </div>
 </body>
 </html>

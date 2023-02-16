@@ -214,7 +214,8 @@ exports.doneDataById = (request, response) => {
             } else {
                 //stockage dans une constante des données effacées
                 //données effacées  = (donnée existante.splice(requete))
-                const deleteData = existingData.todo.splice(((request.params.id)-1))
+                // const deleteData = existingData.todo.splice(((request.params.id)-1))
+                const deleteData = existingData.todo.splice(((request.params.id)-1), 1);
                 //verfifiation du tableau done avant incrémentation des données
                 //si tableau vide
                 if(existingData.done.length === 0) {
