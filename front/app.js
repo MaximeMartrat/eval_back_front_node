@@ -10,9 +10,10 @@ $(document).ready(() => {
     });
     //listener du bouton todo_button
     $("#todo_button").click(function() {
-        $("#todo").css("display" , "grid");
-        $("#done").css("display" , "none");
-        $("#todolist").css('display', 'none')
+        getTodoList();
+        $("#todolist").css('display', 'none');
+        $("#done").css("display", "none");
+        $("#todo").css("display", "grid");
     })
     //listener du bouton display_todo_button
     $("#display_todo_button").click(function() {
@@ -21,13 +22,14 @@ $(document).ready(() => {
 
     //listener du bouton done_button
     $("#done_button").click(function() {
-        $("#done").css("display" , "grid")
-        $("#todo").css("display" , "none")
+        getTodoList();
+        $("#todo").css("display", "none")
         $("#todolist").css('display', 'none')
+        $("#done").css("display", "grid")
     })
     //listener du bouton display_todo_button
     $("#display_done_button").click(function() {
-        $("#done").css("display" , "none")
+        $("#done").css("display", "none")
     })
 
     //fonction pour créer une nouvelle tache
@@ -56,6 +58,7 @@ $(document).ready(() => {
                 //envoi de la requete + console.log + message 
                 console.log(result)
                 alert(result.message)
+                getTodoList();
             },
             //si erreur
             error: (xhr, status, error) => {
@@ -74,6 +77,8 @@ $(document).ready(() => {
     function getTodoList() {
         //recupération de la div pour affichage
         const todoList = $("#todolist");
+        const todoTab = $("#todo_tab");
+        const doneTab = $("#done_tab");
         $.ajax({
             //requete de type get
             type: "GET",
@@ -118,9 +123,17 @@ $(document).ready(() => {
                     myTab2 += '</tr>'
                 }
                 myTab2 += `</table><br/>`
-                let clearButton = '<button id="display_button">clear</button>';
+                let clearButton = '<button class="clear" id="display_button">clear</button>';
                 //affichage des tableaux dans la div
-                todoList.html(myTab + myTab2 + clearButton);
+                if(selectedButtonValue === "todo"){
+                    todoTab.html(myTab);
+                } 
+                if(selectedButtonValue === "done") {
+                    doneTab.html(myTab2);
+                }
+                if(selectedButtonValue === "todolist") {
+                    todoList.html(myTab + myTab2 + clearButton);
+                }
                 //listener sur le bouton display
                 $("#display_button").click(function() {
                     $("#todolist").css('display', 'none')
@@ -139,9 +152,9 @@ $(document).ready(() => {
     //event listener sur le bouton todolist
     $("#todolist_button").click(function() { 
         getTodoList();
-        $("#todolist").css('display', 'grid')
-        $("#done").css("display" , "none");
-        $("#todo").css("display" , "none")
+        $("#todolist").css('display', 'grid');
+        $("#done").css("display", "none");
+        $("#todo").css("display", "none");
     });
 
     //creation de la fonction pour appel a la methode de recupération de données par id
@@ -154,14 +167,14 @@ $(document).ready(() => {
             //input = 
             //div =
            taskId = $("#get_todo").val();
-           taskById = $("#todo_post_container");
+           taskById = $("#todo_id");
         }
         //si tableau = done
         if(selectedButtonValue === "done") {
             //input =
             //div =
             taskId = $("#get_done").val();
-            taskById = $("#done_post_container");
+            taskById = $("#done_id");
         }
         $.ajax({
             //requete de type GET

@@ -14,7 +14,7 @@
     <header>
       <h1>TODOLIST</h1>
       <nav>
-        <button id="todolist_button" value="todolist">Todolist</button>
+        <button class="selected_button" id="todolist_button" value="todolist">Todolist</button>
         <button class="selected_button" id="todo_button" value="todo">
           A Faire
         </button>
@@ -26,16 +26,17 @@
 
     <div id="todolist"></div>
 
-    <div id="todo">   
+    <div id="todo">
+      <div id="todo_tab"></div>   
       <div id="get_done_container">
         <h2>SELECTIONNER OU DEPLACER</h2>
         <br />
         <label for="todo_id">N°</label><br />
         <input type="number" id="get_todo" /><br />
-        <div id="todo_id"></div>
         <br />
         <button class="get_by_id_button">Afficher</button>
         <button class="delete_button">Fait</button>
+        <div id="todo_id"></div>
       </div>
       <div id="todo_post_container">
         <h2>AJOUTER</h2>
@@ -59,19 +60,20 @@
         <br /><br />
         <button class="update_button">ok</button>
       </div>
-      <button id="display_todo_button">clear</button>
+      <button class="clear" id="display_todo_button">clear</button>
     </div>
 
     <div id="done">
+      <div id="done_tab"></div>
       <div id="get_delete_container">
         <h2>SELECTIONNER OU EFFACER</h2>
         <br />
         <label for="done_id">N°</label><br />
         <input type="number" id="get_done" /><br />
-        <div id="done_id"></div>
         <br />
         <button class="get_by_id_button">Afficher</button>
         <button class="delete_button">Effacer</button>
+        <div id="done_id"></div>
       </div>
       <div id="done_post_container">
         <h2>AJOUTER</h2>
@@ -95,7 +97,7 @@
         <br /><br />
         <button class="update_button">ok</button>
       </div>
-      <button id="display_done_button">clear</button>
+      <button class="clear" id="display_done_button">clear</button>
     </div>
   </body>
 </html>
