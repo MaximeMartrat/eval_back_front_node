@@ -215,7 +215,8 @@ exports.doneDataById = (request, response) => {
                 //stockage dans une constante des données effacées
                 //données effacées  = (donnée existante.splice(requete))
                 // const deleteData = existingData.todo.splice(((request.params.id)-1))
-                const deleteData = existingData.todo.splice(((request.params.id)-1), 1);
+                const deleteData = existingData.todo.filter((obj)=> obj.id === parseInt(request.params.id));
+                existingData.todo = existingData.todo.filter((obj)=> obj.id != parseInt(request.params.id))
                 //verfifiation du tableau done avant incrémentation des données
                 //si tableau vide
                 if(existingData.done.length === 0) {
@@ -224,7 +225,7 @@ exports.doneDataById = (request, response) => {
                 //sinon
                 } else {
                     //on récupère la dernière entrée du tableau
-                    let thisData = existingData.done[ existingData.done.length-1 ];
+                    let thisData = existingData.done[ existingData.done.length - 1 ];
                     //tableau done = (requete id = id de la dernière entrée + 1 , donnee.todo effacée)
                     existingData.done.push({ "id": thisData.id + 1, "titre": deleteData[0].titre, "tache": deleteData[0].tache });
                 }

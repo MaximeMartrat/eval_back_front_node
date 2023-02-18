@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Della+Respira&family=Poppins&display=swap" rel="stylesheet">
     <script src="app.js" defer></script>
     <title>Eval front back node</title>
   </head>
@@ -14,90 +17,80 @@
     <header>
       <h1>TODOLIST</h1>
       <nav>
-        <button class="selected_button" id="todolist_button" value="todolist">Todolist</button>
-        <button class="selected_button" id="todo_button" value="todo">
-          A Faire
-        </button>
-        <button class="selected_button" id="done_button" value="done">
-          Fait
-        </button>
+        <ul>
+        <li><button class="selected_button" id="todolist_button" value="todolist">Todolist</button></li>
+        <li><button class="selected_button" id="todo_button" value="todo">Todo</button></li>
+        <li><button class="selected_button" id="done_button" value="done">Done</button></li>
+      </ul>
       </nav>
     </header>
-
+    
     <div id="todolist"></div>
 
     <div id="todo">
-      <div id="todo_tab"></div>   
-      <div id="get_done_container">
-        <h2>SELECTIONNER OU DEPLACER</h2>
-        <br />
-        <label for="todo_id">N°</label><br />
-        <input type="number" id="get_todo" /><br />
-        <br />
-        <button class="get_by_id_button">Afficher</button>
-        <button class="delete_button">Fait</button>
-        <div id="todo_id"></div>
-      </div>
+      
       <div id="todo_post_container">
-        <h2>AJOUTER</h2>
-        <br />
-        <label for="titre">Titre</label><br />
-        <input type="text" id="create_todo" /><br />
-        <label for="task">Description</label><br />
-        <input type="text" id="todo_task" />
-        <br /><br />
-        <button class="create_button">ok</button>
+        <ul>
+          <li><h2 class="add">AJOUTER</h2></li>
+          <li><div class="title_div">
+            <label for="titre">Titre</label><br>
+            <input type="text" id="create_todo" />
+          </div></li>
+          <li><div class="task_div">
+            <label for="task">Description</label><br>
+            <input type="text" id="todo_task" />
+          </div></li>
+          <li><button class="create_button">ok</button></li>           
+        </ul>
       </div>
       <div id="todo_update_container">
-        <h2>MODIFIER</h2>
-        <br />
-        <label for="maj_todo_id">N°</label><br />
-        <input type="number" id="id_maj_todo" /><br />
-        <label for="titre">Titre</label><br />
-        <input type="text" id="maj_title_todo" /><br />
-        <label for="task">Description</label><br />
-        <input type="text" id="maj_task_todo" />
-        <br /><br />
-        <button class="update_button">ok</button>
+        <ul>
+          <li><h2 class="update">MODIFIER</h2></li>
+          <li><div class="title_div">
+            <label for="titre">Titre</label><br>
+            <input type="text" id="maj_title_todo" />
+          </div></li>
+          <li><div class="task_div">
+            <label for="task">Description</label><br>
+            <input type="text" id="maj_task_todo" />
+          </div></li>
+          <li><button class="update_button">ok</button></li>        
+        </ul>  
       </div>
-      <button class="clear" id="display_todo_button">clear</button>
+      <div id="todo_tab"></div>
     </div>
-
+    
     <div id="done">
-      <div id="done_tab"></div>
-      <div id="get_delete_container">
-        <h2>SELECTIONNER OU EFFACER</h2>
-        <br />
-        <label for="done_id">N°</label><br />
-        <input type="number" id="get_done" /><br />
-        <br />
-        <button class="get_by_id_button">Afficher</button>
-        <button class="delete_button">Effacer</button>
-        <div id="done_id"></div>
-      </div>
+      
       <div id="done_post_container">
-        <h2>AJOUTER</h2>
-        <br />
-        <label for="titre">Titre</label><br />
-        <input type="text" id="create_done" /><br />
-        <label for="task">Description</label><br />
-        <input type="text" id="done_task" />
-        <br /><br />
-        <button class="create_button">ok</button>
+        <ul>
+          <li><h2 class="add">AJOUTER</h2></li>
+          <li><div class="title_div">
+            <label for="titre">Titre</label><br>
+            <input type="text" id="create_done" />
+          </div></li>
+          <li><div class="task_div">
+            <label for="task">Description</label><br>
+            <input type="text" id="done_task" />
+          </div></li>
+          <li><button class="create_button">ok</button></li>
+        </ul>
       </div>
       <div id="done_update_container">
-        <h2>MODIFIER</h2>
-        <br />
-        <label for="maj_done_id">N°</label><br />
-        <input type="number" id="id_maj_done" /><br />
-        <label for="titre">Titre</label><br />
-        <input type="text" id="maj_title_done" /><br />
-        <label for="task">Description</label><br />
-        <input type="text" id="maj_task_done" />
-        <br /><br />
-        <button class="update_button">ok</button>
+        <ul>
+          <li><h2 class="update">MODIFIER</h2></li>
+          <li><div class="title_div">
+            <label for="titre">Titre</label><br>
+            <input type="text" id="maj_title_done" />
+          </div></li>
+          <li><div class="task_div">
+            <label for="task">Description</label><br>
+            <input type="text" id="maj_task_done" />
+          </div></li>
+          <li><button class="update_button">ok</button></li>
+        </ul>
       </div>
-      <button class="clear" id="display_done_button">clear</button>
+      <div id="done_tab"></div>
     </div>
   </body>
 </html>

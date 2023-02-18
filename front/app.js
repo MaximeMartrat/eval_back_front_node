@@ -1,36 +1,31 @@
 $(document).ready(() => {
+    
     //recupération de l'url locale
     const apiBaseUrl = "http://localhost:3000/"
     //initialisation d'une variable  à null  pour recupérer valeur des boutons de la nav
     let selectedButtonValue = null
+
     //ecoute du click du bouton pour récupérer sa valeur (tableau sélectionné)
     $(".selected_button").click(function(){
         selectedButtonValue = $(this).val()
-        console.log(selectedButtonValue);
     });
-    //listener du bouton todo_button
+
+    //listener du bouton todo_button pour afficher la todo
     $("#todo_button").click(function() {
-        getTodoList();
+        getTodoDone()
         $("#todolist").css('display', 'none');
         $("#done").css("display", "none");
         $("#todo").css("display", "grid");
     })
-    //listener du bouton display_todo_button
-    $("#display_todo_button").click(function() {
-        $("#todo").css("display" , "none")
-    })
-
-    //listener du bouton done_button
+    
+    //listener du bouton done_button pour afficher la done
     $("#done_button").click(function() {
-        getTodoList();
+        getTodoDone()
         $("#todo").css("display", "none")
         $("#todolist").css('display', 'none')
         $("#done").css("display", "grid")
     })
-    //listener du bouton display_todo_button
-    $("#display_done_button").click(function() {
-        $("#done").css("display", "none")
-    })
+    
 
     //fonction pour créer une nouvelle tache
     function createTask() {
@@ -38,11 +33,21 @@ $(document).ready(() => {
         let taskData = "";
         //si selectedButtonVal === "todo" 
         if(selectedButtonValue === "todo") {
-            taskData = { titre: $("#create_todo").val(), tache: $("#todo_task").val() };
+            if ($("#create_todo").val() === "" || $("#todo_task").val() === ""){
+                alert("Vous n'avez pas rempli tous les inputs")
+                return;
+            } else {
+                taskData = { titre: $("#create_todo").val(), tache: $("#todo_task").val() };
+            }
         }
         //si selectedButtonVal ==="done" 
         if(selectedButtonValue === "done") {
-            taskData = { titre: $("#create_done").val(), tache: $("#done_task").val() };
+            if ($("#create_done").val() === "" || $("#done_task").val() === "") {
+                alert("Vous n'avez pas rempli tous les inputs")
+                return;
+            } else {
+                taskData = { titre: $("#create_done").val(), tache: $("#done_task").val() };
+            }
         }
         $.ajax({
             //requete de type post
@@ -59,6 +64,7 @@ $(document).ready(() => {
                 console.log(result)
                 alert(result.message)
                 getTodoList();
+                getTodoDone();
             },
             //si erreur
             error: (xhr, status, error) => {
@@ -72,11 +78,77 @@ $(document).ready(() => {
     }
     //event listener sur le bouton
     $(".create_button").click(createTask);
+    
 
-    //création de la fonction de recupération de tout le fichier
+    //Fonction de recupération de tout le fichier pour affichage dans todolist
     function getTodoList() {
-        //recupération de la div pour affichage
+        //recupération de la div todolist pour affichage
         const todoList = $("#todolist");
+        $.ajax({
+            //requete de type get
+            type: "GET",
+            //recupération de l'url
+            url: apiBaseUrl,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            //si success
+            success: (result) => {
+                let todoItems = result.todo;
+                let doneItems = result.done;
+                //envoi de la requete + creation de deux tableaux pour l'affichage
+                let myTab = `<br><h3>TODO</h3><br>
+                <table id="table">
+                <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                </tr>`;
+                //pour chaque donnée ajouter dans les cellules du tableau la donnée
+                for (let i =0; i < todoItems.length; i++){
+                    myTab += '<tr>'
+                    myTab += '<td class="todolist_titre" >' + todoItems[i].titre + '</td>'
+                    myTab += '<td class="todolist_task" >' + todoItems[i].tache + '</td>'
+                    myTab += '</tr>'
+                }
+                myTab += `</table>`
+                let myTab2 = `<br><h3>DONE</h3><br>
+                <table id="table">
+                <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                </tr>`;
+                //pour chaque donnée ajouter dans les cellules du tableau les données
+                for (let i = 0; i < doneItems.length; i++){
+                    myTab2 += '<tr>' 
+                    myTab2 += '<td class="todolist_titre">' + doneItems[i].titre + '</td>'
+                    myTab2 += '<td class="todolist_task">' + doneItems[i].tache + '</td>'
+                    myTab2 += '</tr>'
+                }
+                myTab2 += `</table><br/>`
+                
+                todoList.html(myTab + myTab2)
+                
+            },
+            //si erreur 
+            error: (xhr, status, error) => {
+                //console.log + message
+                console.log(xhr);
+                console.log(status);
+                console.log(error);
+                alert("status: " + status + "error: " + error);
+            }
+        })
+    }
+    //event listener sur le bouton todolist
+    $("#todolist_button").click(function() { 
+        $("#todolist").css('display', 'grid');
+        $("#done").css("display", "none");
+        $("#todo").css("display", "none");
+        getTodoList();
+    });
+
+    //Fonction de recupération de tout le fichier pour affichage dans todo et done
+    function getTodoDone() {
+        //recupération des div todo et done pour affichage
         const todoTab = $("#todo_tab");
         const doneTab = $("#done_tab");
         $.ajax({
@@ -91,53 +163,44 @@ $(document).ready(() => {
                 let todoItems = result.todo;
                 let doneItems = result.done;
                 //envoi de la requete + creation de deux tableaux pour l'affichage
-                let myTab = `<br><h3>A faire</h3>
+                let newTab = `<br><h3>TODO</h3><br>
                 <table id="table">
                 <tr>
-                    <th>N°</th>
                     <th>Titre</th>
-                    <th>Description</th>
+                    <th colspan="3">Description</th>
                 </tr>`;
-                //pour chaque donnée ajouter dans les cellules du tableau la donnée
+                //pour chaque donnée => cellules du tableau  + la données
                 for (let i =0; i < todoItems.length; i++){
-                    myTab += '<tr>'
-                    myTab += '<td>' + todoItems[i].id + '</td>'
-                    myTab += '<td>' + todoItems[i].titre + '</td>'
-                    myTab += '<td>' + todoItems[i].tache + '</td>'
-                    myTab += '</tr>'
+                    console.log(todoItems[i].id)
+                    newTab += '<tr>'
+                    newTab += '<td class="todo_titre todo_titre' + todoItems[i].id + '" >' + todoItems[i].titre + '</td>'
+                    newTab += '<td class="todo_task todo_task' + todoItems[i].id + '" >' + todoItems[i].tache + '</td>'                                   
+                    newTab += '<td class="td_radio radio' + todoItems[i].id + '"><input class="todo_radio" type="radio" name="todo_check" value="' + todoItems[i].id + '"></td>'
+                    newTab += '<td class="td-delete delete_class' + todoItems[i].id + '"><button class="delete_button" class_delete_button'+ todoItems[i].id + '">X</button></td>'                
+                    newTab += '</tr>'
                 }
-                myTab += `</table>`
-                let myTab2 = `<br><h3>Fait</h3>
+                newTab += `</table>`
+                let newTab2 = `<br><h3>DONE</h3><br>
                 <table id="table">
                 <tr>
-                    <th>N°</th>
-                    <th>Titre</th>
-                    <th>Description</th>
+                <th>Titre</th>
+                <th colspan="3">Description</th>
                 </tr>`;
-                //pour chaque donnée ajouter dans les cellules du tableau les données
+                //pour chaque donnée => cellules du tableau + données
                 for (let i = 0; i < doneItems.length; i++){
-                    myTab2 += '<tr>'
-                    myTab2 += '<td>' + doneItems[i].id + '</td>'
-                    myTab2 += '<td>' + doneItems[i].titre + '</td>'
-                    myTab2 += '<td>' + doneItems[i].tache + '</td>'
-                    myTab2 += '</tr>'
+                    newTab2 += '<tr>' 
+                    newTab2 += '<td class="done_titre done_titre' + doneItems[i].id + '" >' + doneItems[i].titre + '</td>'
+                    newTab2 += '<td class="done_task done_task' + doneItems[i].id + '" >' + doneItems[i].tache + '</td>'
+                    newTab2 += '<td class="td_radio radio_done' + doneItems[i].id + '"><input class="done_radio" type="radio" name="done_check" value="' + doneItems[i].id + '"></td>'
+                    newTab2 += '<td class="td-delete delete_done' + doneItems[i].id + '"><button class="delete_button delete_button'+ doneItems[i].id + '">X</button></td>'
+                    newTab2 += '</tr>'
                 }
-                myTab2 += `</table><br/>`
-                let clearButton = '<button class="clear" id="display_button">clear</button>';
-                //affichage des tableaux dans la div
-                if(selectedButtonValue === "todo"){
-                    todoTab.html(myTab);
-                } 
-                if(selectedButtonValue === "done") {
-                    doneTab.html(myTab2);
-                }
-                if(selectedButtonValue === "todolist") {
-                    todoList.html(myTab + myTab2 + clearButton);
-                }
-                //listener sur le bouton display
-                $("#display_button").click(function() {
-                    $("#todolist").css('display', 'none')
-                });
+                newTab2 += `</table><br/>`
+                
+                todoTab.html(newTab);
+                doneTab.html(newTab2);
+                radioListener()
+                $(".delete_button").click(deleteTask);
             },
             //si erreur 
             error: (xhr, status, error) => {
@@ -149,84 +212,63 @@ $(document).ready(() => {
             }
         })
     }
-    //event listener sur le bouton todolist
-    $("#todolist_button").click(function() { 
-        getTodoList();
-        $("#todolist").css('display', 'grid');
-        $("#done").css("display", "none");
-        $("#todo").css("display", "none");
-    });
-
-    //creation de la fonction pour appel a la methode de recupération de données par id
-    function getTaskById() {
-        //initialisation de variable pour recuperation d'input et de la div
-        let taskId
-        let taskById
-        //si tableau = todo
-        if(selectedButtonValue === "todo") {
-            //input = 
-            //div =
-           taskId = $("#get_todo").val();
-           taskById = $("#todo_id");
-        }
-        //si tableau = done
-        if(selectedButtonValue === "done") {
-            //input =
-            //div =
-            taskId = $("#get_done").val();
-            taskById = $("#done_id");
-        }
-        $.ajax({
-            //requete de type GET
-            type: "GET",
-            //recuperation de l'url pour le tableau selectionné à l'id sélectionnée
-            url: apiBaseUrl + selectedButtonValue + "/" + taskId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            //si succès
-            success: (result) => {
-                //affichage du resultat dans un tableau
-                let myTab = `<br><table id="table">
-                <tr>
-                    <th>N°</th>
-                    <th>Titre</th>
-                    <th>Année</th>
-                </tr>
-                <tr>
-                    <td> ${result.id} </td>
-                    <td> ${result.titre} </td>
-                    <td> ${result.tache} </td>
-                </tr>
-                </table>`;
-                //affichage du tableau dans la div
-                taskById.html(myTab);
-            },
-            //si erreur
-            error: (xhr, status, error) => {
-                //console.log + message
-                console.log(xhr);
-                console.log(status);
-                console.log(error);
-                alert("status: " + status + " error: " + error);
-            }
-        })
+    //fonction d'ecoute des input radio
+    function radioListener() {
+        //listener du bouton radio pour changement de background des td associés
+        $('.todo_radio').click(function(){
+            let id = $(this).val();
+            //rendre non cliquable tous les boutons delete
+            $('.delete_button').prop('disabled', true);
+            //rendre cliquable le bouton delete qui est dans le meme tr que le radio checked
+            $(this).closest('tr').find('.delete_button').prop('disabled', false);
+            $(".td_radio").css({'background-color':'white'})
+            $(".todo_titre").css({'background-color':'white', 'color':'#3D4592'});
+            $(".todo_task").css({'background-color':'white', 'color':'#3D4592'});
+            $(".td-delete").css({'background-color':'white'});
+            $(".radio" + id).css({'background-color':'#F0F1FA'});
+            $(".delete_class" + id).css({'background-color':'#F0F1FA'});
+            $(".todo_titre" + id).css({'background-color':'#F0F1FA', 'color':'#3D4592'});
+            $(".todo_task" + id).css({'background-color':'#F0F1FA', 'color':'#3D4592'});
+        });
+        //listener du bouton radio
+        $('.done_radio').click(function(){
+            //recuperation de la valeur de radio pour changement de background des td associés
+            let id = $(this).val();
+            //rendre non cliquable tous les boutons delete
+            $('.delete_button').prop('disabled', true);
+            //rendre cliquable le bouton delete qui est dans le meme tr que le radio checked
+            $(this).closest('tr').find('.delete_button').prop('disabled', false);
+            $(".td_radio").css({'background-color':'white'});
+            $(".done_titre").css({'background-color':'white', 'color':'#3D4592'});
+            $(".done_task").css({'background-color':"white", 'color':'#3D4592'});
+            $(".td-delete").css({'background-color':'white'});
+            $(".radio_done" + id).css({'background-color':'#F0F1FA'});
+            $(".delete_done" + id).css({'background-color':'#F0F1FA'});
+            $(".done_titre" + id).css({'background-color':'#F0F1FA', 'color':'#3D4592'});
+            $(".done_task" + id).css({'background-color':'#F0F1FA', 'color':'#3D4592'});
+        });
     }
-    //event listener sur le bouton getbyid
-    $('.get_by_id_button').click(getTaskById)
 
-    //fonction deleteTask faisant appel aux methodes d'effacement de données
+
+    //Fonction deleteTask faisant appel aux methodes d'effacement de données
     function deleteTask() {
         //initialisation de variable pour recuperation de l'input
         let deleteId
         //si tableau = todo
         if(selectedButtonValue === "todo") {
-            //input = 
-           deleteId = $("#get_todo").val();
+            //id = radio checked value
+           deleteId = $('input[name=todo_check]:checked').val();
         }
         //si tableau = done
         if(selectedButtonValue === "done") {
-            //input =
-            deleteId = $("#get_done").val();
+            //id = radio checked value
+            deleteId = $('input[name=done_check]:checked').val();
+        }
+        //si aucun bouton radio n'est checké
+        if ($('input[name=done_check]:checked').length === 0) {
+            //message erreur
+            alert("Vous n'avez pas sélectionné d'élément")
+            return;
         }
         $.ajax({
             //requete de type Delete
@@ -240,6 +282,7 @@ $(document).ready(() => {
                 //message
                 alert(result.message)
                 getTodoList();
+                getTodoDone();
             },
             //si erreur
             error: (xhr, status, error) => {
@@ -254,7 +297,8 @@ $(document).ready(() => {
     //event listener sur le bouton delete
     $(".delete_button").click(deleteTask);
 
-    //fonction updateTask faisant appel aux methode de mise à jour des données
+
+    //Fonction updateTask faisant appel aux methode de mise à jour des données
     function updateTask() {
         //initialisation de variable pour recuperation de l'input
         let updateId
@@ -263,52 +307,76 @@ $(document).ready(() => {
         let taskData = {};
         //si tableau = todo
         if(selectedButtonValue === "todo") {
-            //input = 
-            updateId = $("#id_maj_todo").val();
-            if ($("#maj_title_todo").val() !== "") {
+            //id = radio checked value
+            updateId = $('input[name=todo_check]:checked').val();
+            //si input titre n'est pas vide
+            if($("#maj_title_todo").val() !== "") {
+                //donnee.titre = input titre
                 dataTitre = $("#maj_title_todo").val();
                 taskData.titre = dataTitre
             }
-    
-            if ($("#maj_task_todo").val() !== "") {
+            //si input task n'est pas vide
+            if($("#maj_task_todo").val() !== "") {
+                //donnee.task = input task
                 dataTache = $("#maj_task_todo").val();
                 taskData.tache = dataTache
             }
-    
-            if ($("#maj_title_todo").val() === "" && $("#maj_task_todo").val() === "") {
+            //si aucun input n'est rempli
+            if($("#maj_title_todo").val() === "" && $("#maj_task_todo").val() === "") {
+                //message d'erreur
                 alert("les inputs sont vides");
                 return;
             }
+            //si aucun radio button n'est coché
+            if ($('input[type=radio]:checked').length === 0) {
+                //message d'erreur
+                alert("aucun élément n'a été sélectionné")
+                return;
+            }
+
         }
         //si tableau = done
         if(selectedButtonValue === "done") {
-            //input =
-            updateId = $("#id_maj_done").val();
+            //id = radio checked value
+            updateId = $('input[name=done_check]:checked').val();
+            //si input titre n'est pas vide
             if ($("#maj_title_done").val() !== "") {
+                //donnee.titre = input titre
                 dataTitre = $("#maj_title_done").val();
                 taskData.titre = dataTitre
             }
-    
+            //si input task n'est pas vide
             if ($("#maj_task_done").val() !== "") {
+                //donnee.task = input task
                 dataTache = $("#maj_task_done").val();
                 taskData.tache = dataTache
             }
-    
+            //si aucun input n'est rempli
             if ($("#maj_title_done").val() === "" && $("#maj_task_done").val() === "") {
+                //message d'erreur
                 alert("les inputs sont vides");
                 return;
             }
         }
         $.ajax({
+            //requete de type Put
             type: "PUT",
+            //recuperation de l'url pour le tableau selectionné à l'id sélectionnée
             url: apiBaseUrl + selectedButtonValue + '/' + updateId,
             data: JSON.stringify(taskData),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            //si success
             success: (result) => {
+                //message
                 alert(result.message)
+                //affichage des données mises à jour
+                getTodoList();
+                getTodoDone();
             },
+            //sinon erreur
             error: (xhr, status, error) => {
+                //message d'alerte
                 console.log(xhr);
                 console.log(status);
                 console.log(error);
