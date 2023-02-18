@@ -213,8 +213,8 @@ exports.doneDataById = (request, response) => {
             //sinon
             } else {
                 //stockage dans une constante des données effacées
-                //données effacées  = (donnée existante.splice(requete))
-                // const deleteData = existingData.todo.splice(((request.params.id)-1))
+                //données effacées  = (donnée existante.filter(requete))
+                //tableau done + donnée existante.filter(requete) 
                 const deleteData = existingData.todo.filter((obj)=> obj.id === parseInt(request.params.id));
                 existingData.todo = existingData.todo.filter((obj)=> obj.id != parseInt(request.params.id))
                 //verfifiation du tableau done avant incrémentation des données
