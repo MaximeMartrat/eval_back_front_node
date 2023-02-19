@@ -256,19 +256,26 @@ $(document).ready(() => {
         let deleteId
         //si tableau = todo
         if(selectedButtonValue === "todo") {
-            //id = radio checked value
-           deleteId = $('input[name=todo_check]:checked').val();
+           if($('input[name=todo_check]:checked').length === 0){
+                //message erreur
+                alert("Vous n'avez pas sélectionné d'élément");
+                return;
+           } else {
+                //id = radio checked value
+                deleteId = $('input[name=todo_check]:checked').val();
+            }
         }
         //si tableau = done
         if(selectedButtonValue === "done") {
-            //id = radio checked value
-            deleteId = $('input[name=done_check]:checked').val();
-        }
-        //si aucun bouton radio n'est checké
-        if ($('input[name=done_check]:checked').length === 0) {
-            //message erreur
-            alert("Vous n'avez pas sélectionné d'élément")
-            return;
+            // si aucun bouton radio n'est checké
+            if($('input[name=done_check]:checked').length === 0) {
+                //message erreur
+                alert("Vous n'avez pas sélectionné d'élément");
+                return;
+            } else {
+                //id = radio checked value
+                deleteId = $('input[name=done_check]:checked').val();
+            }
         }
         $.ajax({
             //requete de type Delete

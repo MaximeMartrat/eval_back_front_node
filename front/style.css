@@ -1,69 +1,134 @@
+@media screen and (max-width: 700px){
+    header{
+        height: 250px !important;
+    }
+    #todo, #done{
+        margin-top: 150px;
+    }
+    h1{
+        font-size: 30px !important;
+        line-height: 80px;
+    }
+
+    .fa-circle-check{
+        display: none;
+    }
+
+    nav ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #todolist{
+        margin-top: 180px;
+        grid-row: 4;
+    }
+
+    #todo_post_container ul, #done_post_container ul{
+        flex-wrap: wrap;
+    }
+
+    #todo_update_container, #done_update_container{
+        margin-top: 230px !important;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #todo_update_container ul, #done_update_container ul{
+        flex-wrap: wrap;
+    }
+
+    #todo_tab, #done_tab{
+        margin-top: 450px;
+        min-width: 350px;
+    }
+    td, th{
+        font-size: small;
+        max-height: 40px;
+        height: 40px !important;
+    }
+}
+
 *{
     margin: 0;
     padding: 0;
 }
+
 body{
     height: 100vh;
     width: 100vw;
     display: grid;
-    grid-template-rows: 20% 80%;
+    grid-template-rows: 30% 70%;
     font-family: 'Della Respira', serif;
     font-family: 'Poppins', sans-serif;
     text-align: center;
 }
+
 header{
     grid-row: 1;
     text-align: center;
     display: grid;
+    height: 100%;
     grid-template-rows: 50% 50%;
 }
+
 h1{
     font-size: 50px;
     margin:auto;
-    border: 1px solid #3D4592;
     width:45%;
     height:80px;
-    background-color: #3D4592;
     border-radius: 10px;
     color:white;
+    border: 1px solid #3D4592;
+    background-color: #3D4592;
     box-shadow: 0px 5px 5px #acadbd;
 }
+
 .fa-circle-check{
     font-size: 40px;
 }
+
 button{
     height: 30px;
     width: 100px;
     font-size: 20px;
+    cursor: pointer;
 }
+
 nav{
     width:45%;
     margin: auto;
 }
+
 nav button{
     height: 50px;
     width: 250px;
     margin-top: 5%;
-    /* margin-left: 1px;
-    margin-right: 1px; */
+    font-size:large;
     background-color: white;
     border: 1px solid white;
-    color: #3D4592;
     box-shadow: 0px 1px 3px #8b8c99;
+    color: #3D4592;
 }
+
 nav button:hover{
+    font-size: x-large;
     background-color: #f1f2f9;
     border: 1px solid #3D4592;
     box-shadow: 0px 2px 5px #3D4592;
 }
+
 #todolist_button{
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
 #done_button{
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 nav ul{
     display:flex;
     margin-top: 2%;
@@ -79,6 +144,7 @@ nav ul{
     margin-left: auto;
     margin-right: auto;
 }
+
 #todo{
     display: none;
     grid-row: 2;
@@ -86,6 +152,7 @@ nav ul{
     height:100%;
     grid-template-rows: 15% 15% 70%;
 }
+
 #done{
     display: none;
     grid-row: 2;
@@ -93,10 +160,12 @@ nav ul{
     height:100%;
     grid-template-rows: 15% 15% 70%;
 }
+
 h3{
     text-align: center;
     color:#3D4592
 }
+
 table{
     text-align: center;
     border-collapse: collapse;
@@ -104,32 +173,41 @@ table{
     width:100%;
     color:#3D4592;
     margin-left: auto;
+    border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0px 1px 5px #8b8c99;
 }
+
 th, td{
-    border:1px solid #888;
+    border:1px solid #c2c2c5;
     height:40px;
     padding: 5px;
 }
+
 th{
     color:white;
     background-color: #3D4592;
 }
+
 .todo_task, .done_task{
     border-right: none;
 }
+
 .td_radio{
     border-left:none;
     border-right: none;
     width: 40px;
 }
+
 .td-delete{
     border-left: none; 
 }
+
 .delete_button{
     height:100%;
     width:100%;
 }
+
 .td_radio input{
     height:100%;
     width:100%;
@@ -138,25 +216,31 @@ th{
     appearance: none;
     border-radius: 100%;
 }
+
 .td_radio input:hover{
     border: 2px solid #3D4592;
+    cursor: pointer;
 }
+
 .td_radio input:checked{
     background: #3D4592;
     border: 2px solid white;
 }
+
 .delete_button{
     background-color: white;
     border-radius: 5px;
     border: 1px solid #3D4592;
     color:#3D4592;
 }
+
 .delete_button:hover{
     background-color: #3D4592;
     border: 1px solid white;
     color: #F0F1FA;
     box-shadow: 0px 2px 5px #3D4592;
 }
+
 h2{
     color:#3D4592;
     font-size: 20px;
@@ -211,6 +295,7 @@ h2{
     width: 41px;
     border-radius: 5px;
     color:#3D4592;
+    font-size: medium;
     background-color: white;
     border: 1px solid white;
     box-shadow: 0px 1px 3px #8b8c99;
@@ -220,6 +305,7 @@ h2{
     background-color:#f1f2f9;
     border: 1px solid #3D4592;
     box-shadow: 0px 2px 5px #3D4592;
+    font-size:larger;
 }
 
 #todo_tab, #done_tab{
@@ -227,7 +313,6 @@ h2{
     width:45%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2%;
 }
 
 #todo_id{
@@ -240,13 +325,18 @@ h2{
 }
 
 input{
-    padding: 5px;
-    border-radius: 5px;
     height: 30px;
     width: 300px;
-    border: 1px solid white;
+    padding: 5px;
     outline: none;
+    font-size: medium;
+    border-radius: 5px;
+    border: 1px solid white;
     box-shadow: 0px 1px 3px #8b8c99;
+}
+
+input:hover{
+    box-shadow: 0px 2px 4px #8b8c99;
 }
 
 input:focus{
