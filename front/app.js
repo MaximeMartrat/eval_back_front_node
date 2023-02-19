@@ -176,7 +176,7 @@ $(document).ready(() => {
                     newTab += '<td class="todo_titre todo_titre' + todoItems[i].id + '" >' + todoItems[i].titre + '</td>'
                     newTab += '<td class="todo_task todo_task' + todoItems[i].id + '" >' + todoItems[i].tache + '</td>'                                   
                     newTab += '<td class="td_radio radio' + todoItems[i].id + '"><input class="todo_radio" type="radio" name="todo_check" value="' + todoItems[i].id + '"></td>'
-                    newTab += '<td class="td-delete delete_class' + todoItems[i].id + '"><button class="delete_button" class_delete_button'+ todoItems[i].id + '">X</button></td>'                
+                    newTab += '<td class="td-delete delete_class' + todoItems[i].id + '"><button class="delete_button" class_delete_button'+ todoItems[i].id + '"><i class="fa-solid fa-trash-can"></i></button></td>'                
                     newTab += '</tr>'
                 }
                 newTab += `</table>`
@@ -192,7 +192,7 @@ $(document).ready(() => {
                     newTab2 += '<td class="done_titre done_titre' + doneItems[i].id + '" >' + doneItems[i].titre + '</td>'
                     newTab2 += '<td class="done_task done_task' + doneItems[i].id + '" >' + doneItems[i].tache + '</td>'
                     newTab2 += '<td class="td_radio radio_done' + doneItems[i].id + '"><input class="done_radio" type="radio" name="done_check" value="' + doneItems[i].id + '"></td>'
-                    newTab2 += '<td class="td-delete delete_done' + doneItems[i].id + '"><button class="delete_button delete_button'+ doneItems[i].id + '">X</button></td>'
+                    newTab2 += '<td class="td-delete delete_done' + doneItems[i].id + '"><button class="delete_button delete_button'+ doneItems[i].id + '"><i class="fa-solid fa-trash-can"></i></button></td>'
                     newTab2 += '</tr>'
                 }
                 newTab2 += `</table><br/>`
